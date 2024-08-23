@@ -88,7 +88,6 @@ export default function Admin() {
               <img src={user.photo} alt={user.name} />
               <div className="colContainer">
                 <div className="name">{user.name}</div>
-                <div className="description">{user.description}</div>
                 <div className="address">{user.address}</div>
               </div>
               <button onClick={() => deleteUser(index)}>Delete</button>

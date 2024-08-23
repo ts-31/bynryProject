@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./Search.css";
 import MapComponent from "../components/MapComponent";
+import Popup from "../components/Popup";
+import Loader from "../components/Loader";
 
 export default function Search() {
   const [users, setUsers] = useState([]);
@@ -8,6 +10,9 @@ export default function Search() {
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [mapPosition, setMapPosition] = useState([19.7515, 75.7139]);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [loader, setLoader] = useState(false);
 
   useEffect(() => {
     const storedUsers = localStorage.getItem("user");
@@ -52,6 +57,7 @@ export default function Search() {
   }
 
   const handleMapButtonClick = async (address) => {
+    setLoader(true);
     setSelectedAddress(address);
 
     if (address) {
@@ -65,6 +71,17 @@ export default function Search() {
         console.error("Geocoding failed.");
       }
     }
+    setLoader(false);
+  };
+
+  const handleProfileClick = (user) => {
+    setSelectedUser(user);
+    setIsPopupOpen(true);
+  };
+
+  const closePopup = () => {
+    setIsPopupOpen(false);
+    setSelectedUser(null);
   };
 
   return (
@@ -84,15 +101,18 @@ export default function Search() {
           {filteredUsers.length > 0 ? (
             filteredUsers.map((profile, index) => (
               <div className="profileContainer" key={index}>
-                <img src={profile.photo} alt={profile.name} />
+                <img
+                  src={profile.photo}
+                  alt={profile.name}
+                  onClick={() => handleProfileClick(profile)}
+                />
                 <div className="colContainer">
                   <div className="name">{profile.name}</div>
-                  <div className="description">{profile.description}</div>
                   <div className="address">{profile.address}</div>
-                  <button onClick={() => handleMapButtonClick(profile.address)}>
-                    Show on Map
-                  </button>
                 </div>
+                <button onClick={() => handleMapButtonClick(profile.address)}>
+                  Summary
+                </button>
               </div>
             ))
           ) : (
@@ -101,8 +121,19 @@ export default function Search() {
         </div>
       </div>
       <div className="rightContainer">
+        {loader ? <Loader /> : null}
         <MapComponent address={selectedAddress} position={mapPosition} />
       </div>
+      <Popup isOpen={isPopupOpen} onClose={closePopup}>
+        {selectedUser && (
+          <div className="popup-content">
+            <h2>{selectedUser.name}</h2>
+            <img src={selectedUser.photo} alt={selectedUser.name} />
+            <p>{selectedUser.description}</p>
+            <p>{selectedUser.address}</p>
+          </div>
+        )}
+      </Popup>
     </div>
   );
 }

@@ -26,13 +26,16 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  align-items: center;
   overflow-y: auto;
 }
 
 .profileContainer {
+  width: 90%;
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   border: 2px solid black;
   border-radius: 5px;
   padding: 10px;
@@ -42,10 +45,35 @@
 .profileContainer img {
   height: 80px;
   width: 80px;
-  margin-right: 10px;
 }
 
 .colContainer {
   display: flex;
   flex-direction: column;
+  margin-right: 15px;
+  align-items: center;
+  justify-content: center;
+}
+
+.name {
+  margin: 5px;
+}
+
+.address {
+  margin: 5px;
+}
+
+.profileContainer button {
+  height: 80px;
+  width: 80px;
+  background-color: #333;
+  color: white;
+  border-radius: 5px;
+  margin-left: auto;
+}
+
+@media screen and (max-width: 768px) {
+  .mainContainer {
+    flex-direction: column;
+  }
 }
