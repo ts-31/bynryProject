@@ -1,0 +1,73 @@
+.navBar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: #333;
+  padding: 20px;
+  color: white;
+}
+
+.navBarList {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.navBarItem {
+  margin: 0 50px;
+}
+
+.navBarItem a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+}
+
+.navBarItem a:hover {
+  color: #ff6347;
+}
+
+.searchBar input {
+  padding: 5px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+}
+
+@media screen and (max-width: 500px) {
+  .navBar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .navBarList {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .navBarItem {
+    margin: 10px 0;
+    width: 100%;
+    text-align: center;
+  }
+
+  .searchBar {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .searchBar input {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .navBarItem {
+    font-size: 14px;
+  }
+
+  .searchBar input {
+    padding: 8px;
+  }
+}
