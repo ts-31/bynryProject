@@ -45,8 +45,10 @@
 
 .colContainer {
   display: flex;
+  width: 60%;
   flex-direction: column;
   justify-content: center;
+  margin: 0;
 }
 
 .name,
@@ -59,11 +61,13 @@
 .profileContainer button {
   margin-left: 10px;
   padding: 5px 10px;
+  height: 30px;
 }
 
 @media screen and (max-width: 768px) {
   .container {
     grid-template-columns: 1fr;
+    place-items: center;
   }
   .inputUserInfo {
     margin-bottom: 10px;

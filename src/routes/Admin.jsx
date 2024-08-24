@@ -9,6 +9,7 @@ export default function Admin() {
     address: "",
   });
   const [users, setUsers] = useState([]);
+  const [editIndex, setEditIndex] = useState(null);
 
   useEffect(() => {
     const storedUsers = localStorage.getItem("user");
@@ -35,11 +36,29 @@ export default function Admin() {
       alert("Please fill all the details.");
       return;
     }
-    const updatedUsers = [...users, userData];
+
+    let updatedUsers;
+    if (editIndex !== null) {
+      updatedUsers = users.map((user, index) =>
+        index === editIndex ? userData : user
+      );
+      setEditIndex(null);
+    } else {
+      updatedUsers = [...users, userData];
+    }
     localStorage.setItem("user", JSON.stringify(updatedUsers));
     setUsers(updatedUsers);
     setUserData({ photo: "", name: "", description: "", address: "" });
-    alert("User added successfully");
+    alert(
+      editIndex !== null
+        ? "User updated successfully"
+        : "User added successfully"
+    );
+  };
+
+  const editUser = (index) => {
+    setUserData(users[index]);
+    setEditIndex(index);
   };
 
   const deleteUser = (index) => {
@@ -79,9 +98,11 @@ export default function Admin() {
           onChange={handleChange}
           placeholder="Enter Address"
         />
-        <button type="submit">Add User</button>
+        <button type="submit">
+          {editIndex !== null ? "Update User" : "Add User"}
+        </button>
       </form>
-      <div className="users">
+      {/* <div className="users">
         {users.length > 0 ? (
           users.map((user, index) => (
             <div className="profileContainer" key={index}>
@@ -90,13 +111,34 @@ export default function Admin() {
                 <div className="name">{user.name}</div>
                 <div className="address">{user.address}</div>
               </div>
+              <button onClick={() => editUser(index)}>Edit</button>
               <button onClick={() => deleteUser(index)}>Delete</button>
             </div>
           ))
         ) : (
           <p>No users added yet.</p>
         )}
+      </div> */}
+      <div className="users">
+  {users.length > 0 ? (
+    users.map((user, index) => (
+      <div className="profileContainer" key={index}>
+        <img src={user.photo} alt={user.name} />
+        <div className="colContainer">
+          <div className="name">{user.name}</div>
+          <div className="address">{user.address}</div>
+        </div>
+        <div className="buttonsContainer">
+          <button onClick={() => editUser(index)}>Edit</button>
+          <button onClick={() => deleteUser(index)}>Delete</button>
+        </div>
       </div>
+    ))
+  ) : (
+    <p>No users added yet.</p>
+  )}
+</div>
+
     </div>
   );
 }
